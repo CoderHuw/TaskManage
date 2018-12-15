@@ -3,6 +3,7 @@ package com.wh.task.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.wh.task.annotation.TaskManageAnno;
 import com.wh.task.mapper.UserMapper;
 import com.wh.task.model.User;
 import com.wh.task.service.intf.IUserService;
@@ -36,6 +37,19 @@ public class UserServiceImpl implements IUserService {
 			user.setRealName("TaskManager" + i);
 			userMapper.insert(user);
 		}
+	}
+	
+	/**
+	 * 
+	 * @Description:(測試AOP). <br/>
+	 *
+	 * @author HUW
+	 * @since JDK 1.8
+	 */
+	@TaskManageAnno
+	public void doMrakMethod() {
+		Thread.currentThread().setName("嘿嘿嘿》》》》");
+		System.out.println("lalalalala>>>>>>");
 	}
 	
 }

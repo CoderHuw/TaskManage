@@ -19,5 +19,10 @@ public class UserServiceImplTest {
 	public void batchCreateUserTest() {
 		userService.batchCreateUser();
 	}
+	
+	@Test
+	public void testDoMrakMethod() {
+		userService.doMrakMethod();
+	}
 
 }
