@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wh.task.mapper.ext.UserMapperExt" >
+  <resultMap id="BaseResultMapOne" type="com.wh.task.model.User" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="phone_no" property="phoneNo" jdbcType="CHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="id_card_type" property="idCardType" jdbcType="CHAR" />
+    <result column="id_card_no" property="idCardNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="reg_source" property="regSource" jdbcType="VARCHAR" />
+    <result column="reg_platform" property="regPlatform" jdbcType="VARCHAR" />
+    <result column="device" property="device" jdbcType="CHAR" />
+    <result column="is_stock" property="isStock" jdbcType="CHAR" />
+    <result column="stock_status" property="stockStatus" jdbcType="CHAR" />
+    <result column="is_open_account" property="isOpenAccount" jdbcType="CHAR" />
+    <result column="reg_time" property="regTime" jdbcType="TIMESTAMP" />
+    <result column="level" property="level" jdbcType="CHAR" />
+    <result column="growth_num" property="growthNum" jdbcType="BIGINT" />
+    <result column="coin_num" property="coinNum" jdbcType="BIGINT" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="email_check" property="emailCheck" jdbcType="CHAR" />
+    <result column="open_time" property="openTime" jdbcType="TIMESTAMP" />
+    <result column="is_new" property="isNew" jdbcType="CHAR" />
+    <result column="guarantee_code" property="guaranteeCode" jdbcType="CHAR" />
+    <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
+    <result column="my_invite_code" property="myInviteCode" jdbcType="VARCHAR" />
+    <result column="available_amount" property="availableAmount" jdbcType="DECIMAL" />
+    <result column="token_valide_time" property="tokenValideTime" jdbcType="INTEGER" />
+    <result column="email_bind_time" property="emailBindTime" jdbcType="TIMESTAMP" />
+    <result column="is_pass_risk_rating" property="isPassRiskRating" jdbcType="CHAR" />
+    <result column="is_offline" property="isOffline" jdbcType="CHAR" />
+    <result column="highest_level" property="highestLevel" jdbcType="CHAR" />
+    <result column="is_agree" property="isAgree" jdbcType="CHAR" />
+    <result column="agree_time" property="agreeTime" jdbcType="TIMESTAMP" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="score_mall_grant" property="scoreMallGrant" jdbcType="CHAR" />
+  </resultMap>
+ 
+  <select id="queryListByLimit" resultMap="BaseResultMapOne">
+  	select * from ucs_user limit #{limitNum};
+  </select>
+  
+</mapper>

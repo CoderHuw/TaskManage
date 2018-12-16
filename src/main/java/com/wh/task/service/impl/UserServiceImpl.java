@@ -1,10 +1,13 @@
 package com.wh.task.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wh.task.annotation.TaskManageAnno;
 import com.wh.task.mapper.UserMapper;
+import com.wh.task.mapper.ext.UserMapperExt;
 import com.wh.task.model.User;
 import com.wh.task.service.intf.IUserService;
 
@@ -22,6 +25,22 @@ public class UserServiceImpl implements IUserService {
 
 	@Autowired
 	private UserMapper userMapper;
+
+	@Autowired
+	private UserMapperExt userMapperExt;
+	
+	/**
+	 * 
+	 * @Description:(查詢指定條數用戶集合). <br/>
+	 *
+	 * @author HUW
+	 * @param limitNum
+	 * @return
+	 * @since JDK 1.8
+	 */
+	public List<User> getUserList(Integer limitNum){
+		return userMapperExt.queryListByLimit(limitNum);
+	}
 	
 	/**
 	 * 
