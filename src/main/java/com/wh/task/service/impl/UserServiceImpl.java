@@ -38,6 +38,7 @@ public class UserServiceImpl implements IUserService {
 	 * @return
 	 * @since JDK 1.8
 	 */
+	@TaskManageAnno(returnValueClass="com.wh.task.model.User")
 	public List<User> getUserList(Integer limitNum){
 		return userMapperExt.queryListByLimit(limitNum);
 	}

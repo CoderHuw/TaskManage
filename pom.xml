@@ -59,6 +59,21 @@
 		</dependency>
 		<!-- database end -->
 		
+		<!-- Alibaba JSON start -->
+			<dependency>  
+			    <groupId>com.alibaba</groupId>  
+			    <artifactId>fastjson</artifactId>  
+			    <version>1.2.41</version>  
+			</dependency> 
+		<!-- Alibaba JSON end -->
+		
+		<!-- apache common lang start -->
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-lang3</artifactId>
+			</dependency>
+		<!-- apache common lang end -->
+		
 	</dependencies>
 
 	<build>

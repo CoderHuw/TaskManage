@@ -21,4 +21,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD) //标注在方法上
 public @interface TaskManageAnno {
 
+	//返回值類型
+	public String returnValueClass() default "";
+	
+	
+	
 }
