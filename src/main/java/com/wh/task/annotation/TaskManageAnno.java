@@ -21,13 +21,12 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD) //标注在方法上
 @SuppressWarnings("rawtypes")
 public @interface TaskManageAnno {
-
-	//返回值類型
-	public Class returnValueClass() default Object.class;
-	
 	//任務執行類
 	public Class excuteTaskServiceClass() default Object.class;
 
 	//任務執行方法
 	public String excuteTaskMethodName() default "";
+
+	//執行任務方法參數類型
+	public Class taskMethodArgClass() default Object.class;
 }

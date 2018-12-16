@@ -50,14 +50,14 @@ public class TaskAspect {
 				Class<?>[] parameterTypes = method.getParameterTypes();
 				if(parameterTypes.length == argList.length) {
 					TaskManageAnno annotation = method.getAnnotation(TaskManageAnno.class);
-					if(annotation != null && !annotation.returnValueClass().equals("")) {
+					if(annotation != null) {
 						//獲取執行任務類的Class對象
 						Class excuteTaskServiceClass = annotation.excuteTaskServiceClass();
 						Object excuteService = context.getBean(excuteTaskServiceClass);
 						//獲取執行任務的方法
 						String excuteTaskMethodName = annotation.excuteTaskMethodName();
 						Class<?> taskService = Class.forName(excuteTaskServiceClass.getName());
-						Method excuteTaskMethod = taskService.getMethod(excuteTaskMethodName, annotation.returnValueClass());
+						Method excuteTaskMethod = taskService.getMethod(excuteTaskMethodName, annotation.taskMethodArgClass());
 						List returnValueList = (List) returnVal;
 						for (Object obj : returnValueList) {
 							String missionStr = JSON.toJSONString(obj);
