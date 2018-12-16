@@ -4,30 +4,33 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.wh.task.annotation.TaskManageAnno;
-import com.wh.task.model.User;
 
 @Aspect
 @Component
 public class TaskAspect {
 	
+	@Autowired
+	ApplicationContext context;
+	
 	@Pointcut("@annotation(com.wh.task.annotation.TaskManageAnno)")
 	public void mark() {
 	}
-
 	
-	@After("mark()")
-	public void taskExcute() {
-		System.out.println("do mark method:" + Thread.currentThread().getName());
-	}
+//	@After("mark()")
+//	public void taskExcute() {
+//		System.out.println("do mark method:" + Thread.currentThread().getName());
+//	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@AfterReturning(pointcut="mark()",returning="returnVal")
 	public void afterReturnDeal(JoinPoint joinPoint, Object returnVal) throws Exception {
 		//切點所在類class名稱
@@ -48,22 +51,24 @@ public class TaskAspect {
 				if(parameterTypes.length == argList.length) {
 					TaskManageAnno annotation = method.getAnnotation(TaskManageAnno.class);
 					if(annotation != null && !annotation.returnValueClass().equals("")) {
-//						String returnValueClassName = annotation.returnValueClass();
-//						Type[] genericInterfaces = Class.forName(returnValueClassName).getGenericInterfaces();
-//						int dotIndex = StringUtils.lastIndexOf(".", returnValueClassName);
-//						String returnClass = StringUtils.substring(returnValueClassName, dotIndex);
-//						Type type = genericInterfaces[0];
-//						ArrayList arrayList = (ArrayList) returnVal;
-						//TODO
+						//獲取執行任務類的Class對象
+						Class excuteTaskServiceClass = annotation.excuteTaskServiceClass();
+						Object excuteService = context.getBean(excuteTaskServiceClass);
+						//獲取執行任務的方法
+						String excuteTaskMethodName = annotation.excuteTaskMethodName();
+						Class<?> taskService = Class.forName(excuteTaskServiceClass.getName());
+						Method excuteTaskMethod = taskService.getMethod(excuteTaskMethodName, annotation.returnValueClass());
+						List returnValueList = (List) returnVal;
+						for (Object obj : returnValueList) {
+							String missionStr = JSON.toJSONString(obj);
+							excuteTaskMethod.invoke(excuteService, missionStr);
+						}
 					}
 					break;
 				}
 			}
 		}
-		@SuppressWarnings("unchecked")
-		List<User> users = (List<User>) returnVal;
 		System.err.println("yoyoyoyoyo~~~~~~~~~");
-		System.err.println(JSON.toJSONString(users));
 	}
 	
 }

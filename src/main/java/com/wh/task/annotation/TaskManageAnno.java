@@ -19,11 +19,15 @@ import java.lang.annotation.Target;
 @Inherited //注解可以被继承
 @Retention(RetentionPolicy.RUNTIME) //注解会在class字节码文件中存在，在运行时可以通过反射获取到
 @Target(ElementType.METHOD) //标注在方法上
+@SuppressWarnings("rawtypes")
 public @interface TaskManageAnno {
 
 	//返回值類型
-	public String returnValueClass() default "";
+	public Class returnValueClass() default Object.class;
 	
-	
-	
+	//任務執行類
+	public Class excuteTaskServiceClass() default Object.class;
+
+	//任務執行方法
+	public String excuteTaskMethodName() default "";
 }
