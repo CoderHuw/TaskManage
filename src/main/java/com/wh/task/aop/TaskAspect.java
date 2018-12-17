@@ -65,7 +65,7 @@ public class TaskAspect {
 						ExecutorService threadPool = Executors.newFixedThreadPool(3);
 						int index = 0;
 						for (Object obj : returnValueList) {
-							System.out.println("当前位置：" + index);
+							//System.out.println("当前位置：" + index);
 							String missionStr = JSON.toJSONString(obj);
 							//excuteTaskMethod.invoke(excuteService, missionStr);
 							boolean isShutDown = false;
@@ -80,7 +80,7 @@ public class TaskAspect {
 				}
 			}
 		}
-		System.err.println("yoyoyoyoyo~~~~~~~~~");
+		//System.err.println("yoyoyoyoyo~~~~~~~~~");
 	}
 	
 	

@@ -33,7 +33,7 @@ public class LogAspect {
 		for (Method method : methods) {
 			if(method.getName().equals(methodName)) {
 				LogAnno annotation = method.getAnnotation(LogAnno.class);
-				System.err.println(annotation.logMessage());
+				System.err.println(annotation.logMessage() + ":" + Thread.currentThread().getName());
 				break;
 			}
 		}
@@ -42,7 +42,7 @@ public class LogAspect {
 	
 	@After("logger()")
 	public void afterMethodExcute() {
-		System.err.println("嘿嘿，你爺爺在此~~~~~~");
+		System.err.println("嘿嘿，你爺爺在此~~~~~~" + Thread.currentThread().getName());
 	}
 	
 	
