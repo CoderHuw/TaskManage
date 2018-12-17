@@ -1,7 +1,10 @@
 package com.wh.task.aop;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -59,9 +62,18 @@ public class TaskAspect {
 						Class<?> taskService = Class.forName(excuteTaskServiceClass.getName());
 						Method excuteTaskMethod = taskService.getMethod(excuteTaskMethodName, annotation.taskMethodArgClass());
 						List returnValueList = (List) returnVal;
+						ExecutorService threadPool = Executors.newFixedThreadPool(3);
+						int index = 0;
 						for (Object obj : returnValueList) {
+							System.out.println("当前位置：" + index);
 							String missionStr = JSON.toJSONString(obj);
-							excuteTaskMethod.invoke(excuteService, missionStr);
+							//excuteTaskMethod.invoke(excuteService, missionStr);
+							boolean isShutDown = false;
+							if(index == returnValueList.size()) {
+								isShutDown = true;
+							}
+							this.threadPoolMethod(isShutDown, index ,threadPool, excuteTaskMethod, excuteService, missionStr);
+							index++;
 						}
 					}
 					break;
@@ -70,5 +82,26 @@ public class TaskAspect {
 		}
 		System.err.println("yoyoyoyoyo~~~~~~~~~");
 	}
+	
+	
+	public void threadPoolMethod(boolean shutDown, int index, ExecutorService threadPool, Method taskMethod, Object taskService, String args) {
+		threadPool.execute(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					System.err.println("老孙的分身：" + Thread.currentThread().getName() + "缩影：" + index);
+					taskMethod.invoke(taskService, args);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					System.err.println("如来，俺老孙被你骗啦！！！！！！");
+				}finally {
+					if(shutDown) {
+						threadPool.shutdown();
+					}
+				}
+			}
+		});
+	}
+	
+	
 	
 }

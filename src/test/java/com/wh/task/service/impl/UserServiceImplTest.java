@@ -27,7 +27,7 @@ public class UserServiceImplTest {
 	
 	@Test
 	public void testGetUserList() {
-		userService.getUserList(10);
+		userService.getUserList(100);
 	}
 
 }
