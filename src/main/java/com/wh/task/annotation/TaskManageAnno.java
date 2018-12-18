@@ -21,6 +21,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD) //标注在方法上
 @SuppressWarnings("rawtypes")
 public @interface TaskManageAnno {
+	
+	//是否多线程执行
+	public boolean isMultiThreadExecute() default false;
+	
 	//任務執行類
 	public Class excuteTaskServiceClass() default Object.class;
 
@@ -29,4 +33,6 @@ public @interface TaskManageAnno {
 
 	//執行任務方法參數類型
 	public Class taskMethodArgClass() default Object.class;
+	
+	
 }

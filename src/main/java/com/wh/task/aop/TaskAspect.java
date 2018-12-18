@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSON;
 import com.wh.task.annotation.TaskManageAnno;
 
+
 @Aspect
 @Component
 public class TaskAspect {
@@ -27,11 +28,6 @@ public class TaskAspect {
 	@Pointcut("@annotation(com.wh.task.annotation.TaskManageAnno)")
 	public void mark() {
 	}
-	
-//	@After("mark()")
-//	public void taskExcute() {
-//		System.out.println("do mark method:" + Thread.currentThread().getName());
-//	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@AfterReturning(pointcut="mark()",returning="returnVal")
@@ -62,25 +58,34 @@ public class TaskAspect {
 						Class<?> taskService = Class.forName(excuteTaskServiceClass.getName());
 						Method excuteTaskMethod = taskService.getMethod(excuteTaskMethodName, annotation.taskMethodArgClass());
 						List returnValueList = (List) returnVal;
-						ExecutorService threadPool = Executors.newFixedThreadPool(3);
-						int index = 0;
-						for (Object obj : returnValueList) {
-							//System.out.println("当前位置：" + index);
-							String missionStr = JSON.toJSONString(obj);
-//							excuteTaskMethod.invoke(excuteService, missionStr);
-							boolean isShutDown = false;
-							if(index == returnValueList.size()) {
-								isShutDown = true;
+						boolean multiThreadExecute = annotation.isMultiThreadExecute();
+						if(multiThreadExecute) {
+							ExecutorService threadPool = Executors.newFixedThreadPool(3);	
+							//多线程同时执行
+							int index = 0;
+							System.out.println("多线程同时执行");
+							for (Object obj : returnValueList) {
+								String missionStr = JSON.toJSONString(obj);
+								boolean isShutDown = false;
+								if(index == returnValueList.size()) {
+									isShutDown = true;
+								}
+								this.threadPoolMethod(isShutDown, index ,threadPool, excuteTaskMethod, excuteService, missionStr);
+								index++;
 							}
-							this.threadPoolMethod(isShutDown, index ,threadPool, excuteTaskMethod, excuteService, missionStr);
-							index++;
+						}else {
+							//单线程顺序执行
+							System.out.println("单线程顺序执行");
+							for (Object obj : returnValueList) {
+								String missionStr = JSON.toJSONString(obj);
+								excuteTaskMethod.invoke(excuteService, missionStr);
+							}
 						}
 					}
 					break;
 				}
 			}
 		}
-		//System.err.println("yoyoyoyoyo~~~~~~~~~");
 	}
 	
 	
