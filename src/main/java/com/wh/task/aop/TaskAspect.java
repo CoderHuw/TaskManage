@@ -67,7 +67,7 @@ public class TaskAspect {
 						for (Object obj : returnValueList) {
 							//System.out.println("当前位置：" + index);
 							String missionStr = JSON.toJSONString(obj);
-							//excuteTaskMethod.invoke(excuteService, missionStr);
+//							excuteTaskMethod.invoke(excuteService, missionStr);
 							boolean isShutDown = false;
 							if(index == returnValueList.size()) {
 								isShutDown = true;
@@ -92,7 +92,7 @@ public class TaskAspect {
 					System.err.println("老孙的分身：" + Thread.currentThread().getName() + "缩影：" + index);
 					taskMethod.invoke(taskService, args);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					System.err.println("如来，俺老孙被你骗啦！！！！！！");
+					System.err.println("如来，俺老孙被你骗啦！！！！！！" + e.getMessage());
 				}finally {
 					if(shutDown) {
 						threadPool.shutdown();
