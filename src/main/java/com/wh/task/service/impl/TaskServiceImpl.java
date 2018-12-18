@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
-import com.wh.task.annotation.LogAnno;
 import com.wh.task.mapper.UserMapper;
 import com.wh.task.model.User;
 import com.wh.task.service.intf.ITaskService;
@@ -23,7 +22,7 @@ public class TaskServiceImpl implements ITaskService {
 //		System.out.println("任務執行參數：" + objStr + ":" + Thread.currentThread().getName());
 		User user = JSON.parseObject(objStr, User.class);
 		user.setEmail("13916795947@163.com");
-		userMapper.updateByPrimaryKey(user);	
+		userMapper.updateByPrimaryKey(user);		
 		user.setPhoneNo("13916795"+user.getId());
 		userMapper.updateByPrimaryKey(user);
 		throw new RuntimeException("事务测试~~~~~~~~");
